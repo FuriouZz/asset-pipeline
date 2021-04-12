@@ -41,58 +41,56 @@ pipeline.host.setOrigin("http://mycdn.com")
 // Set pathname (Rendered: http://mycdn.com/public)
 pipeline.host.setPathname("public")
 
-// Create a source object a path relative to cwd
-const APP_PATH = pipeline.createPath("app")
-
 pipeline.files
   // Include files to fetch
-  .include(APP_PATH.join("scripts/main.ts"))
-  .include(APP_PATH.join("styles/main.styl"))
-  .include(APP_PATH.join("views/**/*.html.ejs"))
-  .include(APP_PATH.join("assets/**/*"))
+  .include("app/scripts/main.ts")
+  .include("app/styles/main.styl")
+  .include("app/views/**/*.html.ejs")
+  .include("app/assets/**/*")
 
   // Exclude files with underscores at the begining
-  .exclude(APP_PATH.join("views/**/_*.html.ejs"))
+  .exclude("app/views/**/_*.html.ejs")
 
 // Typescript rule
 pipeline.rules
-  .add(APP_PATH.join("scripts/main.ts"))
+  .add("app/scripts/main.ts")
   .extension(".js")
   .keepDirectory(false)
 
 // Add another output
 pipeline.rules
-  .add(APP_PATH.join("scripts/main.ts"))
+  .add("app/scripts/main.ts")
   .path("main.esm.js")
   .tag("esm")
   .priority(-1)
 
 // Stylus rule
 pipeline.rules
-  .add(APP_PATH.join("styles/main.styl"))
+  .add("app/styles/main.styl")
   .extension(".css")
   .keepDirectory(false)
 
 // Views rule
 pipeline.rules
-  .add(APP_PATH.join("views/**/*.html.ejs"))
+  .add("app/views/**/*.html.ejs")
   .extension(".html")
-  .relative(APP_PATH.join("views"))
+  .relative("app/views")
   .cachebreak(false)
 
 // Assets rule
 pipeline.rules
-  .add(APP_PATH.join("assets/**/*"))
-  .relative(APP_PATH)
+  .add("app/assets/**/*")
+  .relative("app")
 
 // Resolve patterns and transform paths
 pipeline.fetch()
 
 // Add alias
-pipeline.alias("app/scripts")
-pipeline.alias("app/styles")
-pipeline.alias("app/views")
-pipeline.alias("app/assets")
+pipeline.resolver
+  .alias("app/scripts")
+  .alias("app/styles")
+  .alias("app/views")
+  .alias("app/assets")
 
 // Logs
 console.log(pipeline.resolver.getPath("app/scripts/main.ts")) // /main-b325d4632fa412.js
