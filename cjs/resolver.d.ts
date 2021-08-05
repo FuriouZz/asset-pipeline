@@ -16,4 +16,5 @@ export declare class Resolver {
     getOutputPath(path: string, tag?: string): string;
     findInputPath(outputPath: PathOrString): TransformResult;
     filter(predicate?: (value: TransformResult, index: number, array: TransformResult[]) => boolean): TransformResult[];
+    match(pattern: string): TransformResult[];
 }

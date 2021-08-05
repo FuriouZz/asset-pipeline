@@ -1,9 +1,13 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Resolver = void 0;
 const path_1 = require("./path/path");
 const url_1 = require("./path/url");
 const utils_1 = require("./path/utils");
+const minimatch_1 = __importDefault(require("minimatch"));
 const OUTSIDE_REG = /^\.\./;
 class Resolver {
     constructor() {
@@ -90,6 +94,9 @@ class Resolver {
         if (!predicate)
             return this.paths.slice(0);
         return this.paths.filter(predicate);
+    }
+    match(pattern) {
+        return this.filter(([filename, transformed]) => (minimatch_1.default(filename, pattern)));
     }
 }
 exports.Resolver = Resolver;

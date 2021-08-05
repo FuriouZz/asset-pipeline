@@ -1,6 +1,7 @@
 import { PathBuilder, toPath, toWebString } from "./path/path";
 import { URLBuilder } from "./path/url";
 import { normalize } from "./path/utils";
+import minimatch from "minimatch";
 const OUTSIDE_REG = /^\.\./;
 export class Resolver {
     constructor() {
@@ -87,5 +88,8 @@ export class Resolver {
         if (!predicate)
             return this.paths.slice(0);
         return this.paths.filter(predicate);
+    }
+    match(pattern) {
+        return this.filter(([filename, transformed]) => (minimatch(filename, pattern)));
     }
 }
