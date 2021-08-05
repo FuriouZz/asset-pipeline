@@ -20,8 +20,8 @@
     "url": "https://github.com/wk-js/asset-pipeline"
   },
   "dependencies": {
-    "filelist": "github:FuriouZz/filelist#459078a795670c02f5d87d8ad0784b43bd60f384",
-    "lol": "github:wk-js/lol.js#0.0.25",
+    "filelist": "github:mde/filelist#b48de57f5ae44ae17c56f02c0e53d06a80b6908b",
+    "lol": "github:FuriouZz/lol.js#0.0.26",
     "minimatch": "^3.0.4"
   },
   "devDependencies": {
