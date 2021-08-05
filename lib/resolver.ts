@@ -18,8 +18,8 @@ export class Resolver {
     this.paths = paths.sort((a, b) => a[1].priority < b[1].priority ? -1 : 1)
   }
 
-  alias(path: PathOrString) {
-    this.aliases.push(toPath(path))
+  alias(...paths: PathOrString[]) {
+    this.aliases.push.apply(this.aliases, paths.map(toPath))
     return this
   }
 
@@ -113,7 +113,7 @@ export class Resolver {
   }
 
   match(pattern: string) {
-    return this.filter(([filename, transformed]) => (
+    return this.filter(([filename, _transformed]) => (
       minimatch(filename, pattern)
     ))
   }
