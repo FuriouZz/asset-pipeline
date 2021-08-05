@@ -8,7 +8,7 @@ export declare class Resolver {
     paths: TransformResult[];
     aliases: PathBuilder[];
     set(paths: TransformResult[]): void;
-    alias(path: PathOrString): this;
+    alias(...paths: PathOrString[]): this;
     resolve(path: string, tag?: string): ResolvedPath[];
     getTransformedPath(path: string, tag?: string): import("./types").TransformedPath;
     getPath(path: string, tag?: string): string;

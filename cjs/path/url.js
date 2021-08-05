@@ -49,7 +49,9 @@ class URLBuilder {
             return false;
         }
     }
-    clone() { return new URLBuilder(this.pathname.web(), this._origin); }
+    clone() {
+        return new URLBuilder(this.pathname.web(), this._origin);
+    }
     join(...parts) {
         return new URLBuilder(this.pathname.join(...parts).web(), this._origin);
     }

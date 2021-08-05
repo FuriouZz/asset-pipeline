@@ -14,22 +14,22 @@ export class Transformer {
     }
     delete(pattern) {
         const path = toWebString(pattern);
-        const index = this.rules.findIndex(item => item.pattern === path);
+        const index = this.rules.findIndex((item) => item.pattern === path);
         if (index > -1)
             this.rules.splice(index, 1);
     }
     match(filename) {
         const _filename = toWebString(filename);
-        return this.rules.some(t => t.match(_filename));
+        return this.rules.some((t) => t.match(_filename));
     }
     transform(files) {
         const options = {
             saltKey: this.saltKey,
-            cachebreak: this.cachebreak
+            cachebreak: this.cachebreak,
         };
         const results = [];
         for (const filename of files) {
-            const transforms = this.rules.filter(t => t.match(filename));
+            const transforms = this.rules.filter((t) => t.match(filename));
             if (transforms.length > 0) {
                 for (const transform of transforms) {
                     const result = transform.apply(filename, options);
@@ -37,9 +37,12 @@ export class Transformer {
                 }
             }
             else {
-                results.push([filename, { path: filename, tag: "default", priority: 0 }]);
+                results.push([
+                    filename,
+                    { path: filename, tag: "default", priority: 0 },
+                ]);
             }
         }
-        return this.results = results;
+        return (this.results = results);
     }
 }

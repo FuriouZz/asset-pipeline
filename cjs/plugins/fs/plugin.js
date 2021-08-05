@@ -7,5 +7,5 @@ exports.FsPlugin = {
     name: "fs",
     setup(pipeline) {
         pipeline.options("fs", new file_system_1.FileSystem(pipeline));
-    }
+    },
 };

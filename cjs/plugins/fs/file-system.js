@@ -33,7 +33,7 @@ class FileSystem {
     move(glob) {
         this.globs.push({
             glob: path_1.toUnixString(glob),
-            action: 'move'
+            action: "move",
         });
     }
     /**
@@ -42,7 +42,7 @@ class FileSystem {
     copy(glob) {
         this.globs.push({
             glob: path_1.toUnixString(glob),
-            action: 'copy'
+            action: "copy",
         });
     }
     /**
@@ -51,7 +51,7 @@ class FileSystem {
     symlink(glob) {
         this.globs.push({
             glob: path_1.toUnixString(glob),
-            action: 'symlink'
+            action: "symlink",
         });
     }
     /**
@@ -60,7 +60,7 @@ class FileSystem {
     ignore(glob) {
         this.globs.push({
             glob: path_1.toUnixString(glob),
-            action: 'ignore'
+            action: "ignore",
         });
     }
     /**
@@ -70,7 +70,7 @@ class FileSystem {
         return __awaiter(this, void 0, void 0, function* () {
             if (force)
                 this.mtimes.clear();
-            const types = ['move', 'copy', 'symlink'];
+            const types = ["move", "copy", "symlink"];
             for (let i = 0; i < types.length; i++) {
                 yield this._apply(types[i]);
             }
@@ -79,24 +79,23 @@ class FileSystem {
     _apply(type) {
         return __awaiter(this, void 0, void 0, function* () {
             const validGlobs = this.globs
-                .filter(glob => glob.action === type)
-                .map(glob => PATH.set(glob.glob).unix());
+                .filter((glob) => glob.action === type)
+                .map((glob) => PATH.set(glob.glob).unix());
             const ignoredGlobs = this.globs
-                .filter(glob => glob.action === "ignore")
-                .map(glob => PATH.set(glob.glob).unix());
-            let files = (type === 'symlink' ?
-                fs_2.fetchDirs(validGlobs, ignoredGlobs)
-                :
-                    fs_2.fetch(validGlobs, ignoredGlobs));
+                .filter((glob) => glob.action === "ignore")
+                .map((glob) => PATH.set(glob.glob).unix());
+            let files = type === "symlink"
+                ? fs_2.fetchDirs(validGlobs, ignoredGlobs)
+                : fs_2.fetch(validGlobs, ignoredGlobs);
             let ios = [];
-            files.forEach(file => {
+            files.forEach((file) => {
                 const input = PATH.set(file).unix();
                 const output = this.resolver.getOutputPath(file);
                 if (input !== output) {
                     return ios.push([input, utils_1.cleanup(output)]);
                 }
             });
-            ios = ios.filter(io => {
+            ios = ios.filter((io) => {
                 const { mtime } = fs_1.statSync(io[0]);
                 if (this.mtimes.has(io[0])) {
                     const prev = this.mtimes.get(io[0]);
@@ -109,15 +108,15 @@ class FileSystem {
             if (ios.length === 0)
                 return;
             for (const items of array_1.chunk(ios, this.chunkCount)) {
-                const ps = items.map(io => {
+                const ps = items.map((io) => {
                     logger_1.info("[fs]", type, ...io);
-                    if (type === 'copy') {
+                    if (type === "copy") {
                         return fs_2.copy(io[0], io[1]);
                     }
-                    else if (type === 'move') {
+                    else if (type === "move") {
                         return fs_2.move(io[0], io[1]);
                     }
-                    else if (type === 'symlink') {
+                    else if (type === "symlink") {
                         try {
                             fs_2.ensureDirSync(path_2.dirname(io[1]));
                             fs_1.symlinkSync(io[0], io[1], "junction");

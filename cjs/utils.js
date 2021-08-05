@@ -6,6 +6,6 @@ const crypto_1 = require("crypto");
  * Generate hash string
  */
 function generateHash(str) {
-    return crypto_1.createHash('md5').update(str).digest('hex');
+    return crypto_1.createHash("md5").update(str).digest("hex");
 }
 exports.generateHash = generateHash;

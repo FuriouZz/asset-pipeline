@@ -12,7 +12,7 @@ export interface DefaultRule<Options extends Record<string, any>> {
     };
     tag(tag: string): this;
     priority(priority: number): this;
-    set(override: Partial<this['options']>): this;
+    set(override: Partial<this["options"]>): this;
     match(filename: string): boolean;
 }
 export interface RuleBuilder<Options, Methods> {
@@ -30,8 +30,8 @@ export interface ResolvedPath {
     parameters: string;
 }
 export interface PipelineEvents {
-    "resolved": string[];
-    "transformed": TransformResult[];
+    resolved: string[];
+    transformed: TransformResult[];
 }
 export declare type PipelineEvent<K extends keyof PipelineEvents = any> = EmitterEvent<K, PipelineEvents[K]>;
 export declare type PipelineEventCallback<K extends keyof PipelineEvents = any> = EmitterCallback<K, PipelineEvents[K]>;

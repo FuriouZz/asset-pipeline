@@ -26,14 +26,30 @@ class PathBuilder {
     constructor(path) {
         this.path = toOsString(path);
     }
-    clone() { return new PathBuilder(this.path); }
-    os() { return utils_1.normalize(this.path, "os"); }
-    unix() { return utils_1.normalize(this.path, "unix"); }
-    web() { return utils_1.normalize(this.path, "web"); }
-    ext() { return Path.extname(this.path); }
-    base() { return Path.basename(this.path); }
-    name() { return Path.basename(this.path, this.ext()); }
-    dir() { return Path.dirname(this.path); }
+    clone() {
+        return new PathBuilder(this.path);
+    }
+    os() {
+        return utils_1.normalize(this.path, "os");
+    }
+    unix() {
+        return utils_1.normalize(this.path, "unix");
+    }
+    web() {
+        return utils_1.normalize(this.path, "web");
+    }
+    ext() {
+        return Path.extname(this.path);
+    }
+    base() {
+        return Path.basename(this.path);
+    }
+    name() {
+        return Path.basename(this.path, this.ext());
+    }
+    dir() {
+        return Path.dirname(this.path);
+    }
     set(path) {
         this.path = toUnixString(path);
         return this;

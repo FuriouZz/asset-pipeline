@@ -12,17 +12,17 @@ export class Resolver {
         this.aliases = [];
     }
     set(paths) {
-        this.paths = paths.sort((a, b) => a[1].priority < b[1].priority ? -1 : 1);
+        this.paths = paths.sort((a, b) => (a[1].priority < b[1].priority ? -1 : 1));
     }
-    alias(path) {
-        this.aliases.push(toPath(path));
+    alias(...paths) {
+        this.aliases.push.apply(this.aliases, paths.map(toPath));
         return this;
     }
     resolve(path, tag = "default") {
         path = normalize(path, "web");
         const original = path;
         const extra = path.match(/\#|\?/);
-        let parameters = '';
+        let parameters = "";
         if (extra) {
             parameters = extra[0] + path.split(extra[0])[1];
             path = path.split(extra[0])[0];
@@ -32,7 +32,7 @@ export class Resolver {
             if (path === filename && transformed.tag === tag) {
                 paths.push({
                     transformed: transformed,
-                    parameters
+                    parameters,
                 });
             }
         }
@@ -43,7 +43,7 @@ export class Resolver {
                     if (p === filename && transformed.tag === tag) {
                         paths.push({
                             transformed: transformed,
-                            parameters
+                            parameters,
                         });
                     }
                 }
@@ -78,7 +78,7 @@ export class Resolver {
         if (_outpath[0] === "/") {
             _outpath = _outpath.slice(1);
         }
-        const transformed = this.paths.find(([input, result]) => (result.path === _outpath));
+        const transformed = this.paths.find(([input, result]) => result.path === _outpath);
         if (!transformed) {
             throw new Error(`Cannot find input for "${outputPath}"`);
         }
@@ -90,6 +90,6 @@ export class Resolver {
         return this.paths.filter(predicate);
     }
     match(pattern) {
-        return this.filter(([filename, transformed]) => (minimatch(filename, pattern)));
+        return this.filter(([filename, _transformed]) => minimatch(filename, pattern));
     }
 }

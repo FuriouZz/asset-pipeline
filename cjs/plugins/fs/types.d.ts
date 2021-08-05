@@ -10,6 +10,6 @@ declare module "../../pipeline" {
 }
 declare module "../../types" {
     interface PipelineEvents {
-        "newfilecopied": [string, string][];
+        newfilecopied: [string, string][];
     }
 }

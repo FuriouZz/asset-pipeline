@@ -9,25 +9,24 @@ const SEARCH_HASH_REG = /\?|\#/;
  */
 export function normalize(path, type = "web") {
     switch (type) {
-        case "os": return Path.normalize(path);
-        case "unix":
-            {
-                path = normalize(path, "os");
-                path = path.replace(WIN32_SEP_REG, Path.posix.sep);
-                while (path.match(DOUBLE_BACKSLASH_REG)) {
-                    path = path.replace(DOUBLE_BACKSLASH_REG, Path.posix.sep); // node on windows doesn't replace doubles
-                }
-                return path;
+        case "os":
+            return Path.normalize(path);
+        case "unix": {
+            path = normalize(path, "os");
+            path = path.replace(WIN32_SEP_REG, Path.posix.sep);
+            while (path.match(DOUBLE_BACKSLASH_REG)) {
+                path = path.replace(DOUBLE_BACKSLASH_REG, Path.posix.sep); // node on windows doesn't replace doubles
             }
-        case "web":
-            {
-                path = normalize(path, "unix");
-                path = path.replace(CLEAN_URL_START_REG, "");
-                if (!(path.length === 1 && CLEAN_URL_END_REG.test(path))) {
-                    path = path.replace(CLEAN_URL_END_REG, "");
-                }
-                return path;
+            return path;
+        }
+        case "web": {
+            path = normalize(path, "unix");
+            path = path.replace(CLEAN_URL_START_REG, "");
+            if (!(path.length === 1 && CLEAN_URL_END_REG.test(path))) {
+                path = path.replace(CLEAN_URL_END_REG, "");
             }
+            return path;
+        }
     }
 }
 /**

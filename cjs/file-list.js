@@ -10,7 +10,7 @@ class FileList {
         this.filelist = {
             pending: true,
             include: [],
-            exclude: []
+            exclude: [],
         };
     }
     include(...patterns) {
